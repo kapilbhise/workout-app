@@ -9,6 +9,7 @@ const NoteSchema = new Schema(
     },
     description: {
       type: String,
+      default: "NULL",
     },
   },
   {
@@ -16,4 +17,5 @@ const NoteSchema = new Schema(
   }
 );
 
+// create a Note Model from NoteSchema
 module.exports = mongoose.model("Note", NoteSchema);

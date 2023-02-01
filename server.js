@@ -46,8 +46,9 @@ mongoose
       //   );
       // });
     }
+    // listening the request only after connected to database
     app.listen(process.env.PORT || 4000, () => {
-      console.log("listening for requests on port", process.env.PORT || 4000);
+      console.log("Server started on port:", process.env.PORT || 4000);
     });
   })
   .catch((err) => {
