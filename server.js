@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const workoutRoutes = require("./routes/workouts");
 const noteRoutes = require("./routes/notes");
-const userRoutes = require("./routes/users");
+const userRoutes = require("./routes/user");
 const path = require("path");
 
 // express app
@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 });
 
 // routes
-app.use("/api/users", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/workouts", workoutRoutes);
 app.use("/api/notes", noteRoutes);
 
