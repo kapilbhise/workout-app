@@ -12,10 +12,10 @@ const router = express.Router();
 
 
 // login route
-router.post("/login", () => {});
+router.post("/login", loginUser);
 
 // signup route
-router.post("/signup", () => {});
+router.post("/signup", signupUser);
 
 // get all users
 router.get("/", getAllUsers);

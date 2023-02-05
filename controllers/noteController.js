@@ -3,9 +3,10 @@ const Note = require("../models/noteModel");
 
 // get all workouts
 const getAllNotes = async (req, res) => {
-  const notes = await Note.find({}).sort({ createadAt: -1 });
-  console.log("Notes are\n");
-  console.log(notes);
+  const user_id = req.user._id.valueOf();
+  const notes = await Note.find({ user_id: user_id }).sort({ createadAt: -1 });
+  // console.log("Notes are\n");
+  // console.log(notes);
   if (notes.length <= 0) {
     return res.status(404).json({ message: "No notes found" });
   }
@@ -30,15 +31,16 @@ const getSingleNote = async (req, res) => {
   }
 
   // if note is found
-  console.log("Note is:");
-  console.log(note);
+  // console.log("Note is:");
+  // console.log(note);
   return res.status(200).json(note);
 };
 
 //create single note
 const createANote = async (req, res) => {
   const { title, description } = req.body;
-
+  const user_id = req.user._id.valueOf();
+  console.log(user_id);
   let emptyFields = [];
 
   if (!title) {
@@ -52,13 +54,15 @@ const createANote = async (req, res) => {
       .status(400)
       .json({ error: "Please fill in all fields", emptyFields });
   }
-  console.log(title, description);
+  console.log(title, description, user_id);
 
   try {
     const newNote = await Note.create({
       title: title,
       description: description,
+      user_id: user_id,
     });
+    console.log(user_id, newNote);
     return res.status(201).json(newNote);
   } catch (err) {
     return res.status(400).json({ error: err.message });

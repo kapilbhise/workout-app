@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNotesContext } from "../hooks/useNotesContext";
-
+import { useAuthContext } from "../hooks/useAuthContext";
 const NoteForm = () => {
+  const { user } = useAuthContext();
   const { dispatch } = useNotesContext();
 
   const [title, setTitle] = useState("");
@@ -12,6 +13,10 @@ const NoteForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
     const note = { title, description };
 
     const response = await fetch(
@@ -20,6 +25,7 @@ const NoteForm = () => {
         method: "POST",
         body: JSON.stringify(note),
         headers: {
+          Authorization: `Bearer ${user.token}`,
           "Content-Type": "application/json",
         },
       }
@@ -58,7 +64,6 @@ const NoteForm = () => {
         value={description}
         className={emptyFields.includes("description") ? "error" : ""}
       />
-
 
       <button>Add Note</button>
       {error && <div className='error'>{error}</div>}

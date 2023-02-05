@@ -1,16 +1,23 @@
 import { useNotesContext } from "../hooks/useNotesContext";
-
+import { useAuthContext } from "../hooks/useAuthContext";
 // date fns
 import formatDistanceToNow from "date-fns/formatDistanceToNow";
 
 const NoteDetails = ({ note }) => {
+  const { user } = useAuthContext();
   const { dispatch } = useNotesContext();
 
   const handleClick = async () => {
+    if (!user) {
+      return;
+    }
     const response = await fetch(
       "https://workout-app-qvmk.onrender.com/api/notes/" + note._id,
       {
         method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
       }
     );
     const json = await response.json();
