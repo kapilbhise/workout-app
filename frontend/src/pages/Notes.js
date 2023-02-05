@@ -1,15 +1,25 @@
 import React, { useEffect } from "react";
 
 import NoteDetails from "../components/NoteDetails";
-import { useNotesContext } from "../hooks/useNotesContext";
 import NoteForm from "../components/NoteForm";
 
+import { useAuthContext } from "../hooks/useAuthContext";
+import { useNotesContext } from "../hooks/useNotesContext";
+
 const Notes = () => {
+  const { user } = useAuthContext();
   const { notes, dispatch } = useNotesContext();
+
   useEffect(() => {
     const fetchNotes = async () => {
       const response = await fetch(
-        "https://workout-app-qvmk.onrender.com/api/notes"
+        "https://workout-app-qvmk.onrender.com/api/notes",
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       const json = await response.json();
       if (response.ok) {
